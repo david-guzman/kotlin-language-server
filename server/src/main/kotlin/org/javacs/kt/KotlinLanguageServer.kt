@@ -110,9 +110,13 @@ class KotlinLanguageServer(
 
         @Suppress("DEPRECATION")
         val folders = params.workspaceFolders?.takeIf { it.isNotEmpty() }
-            ?: params.rootUri?.let(::WorkspaceFolder)?.let(::listOf)
-            ?: params.rootPath?.let(Paths::get)?.toUri()?.toString()?.let(::WorkspaceFolder)?.let(::listOf)
-            ?: listOf()
+                      ?: params.rootUri?.let { uri ->
+                          listOf(WorkspaceFolder(uri,uri))
+                      }
+                      ?: params.rootPath?.let(Paths::get)?.toUri()?.toString()?.let { uri ->
+                          listOf(WorkspaceFolder(uri,uri))
+                      }
+                      ?: emptyList()
 
         val progress = params.workDoneToken?.let { LanguageClientProgress("Workspace folders", it, client) }
 
