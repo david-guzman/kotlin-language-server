@@ -15,6 +15,13 @@ class OverrideMemberTest : SingleFileTestFixture("overridemember", "OverrideMemb
     val root = testResourcesRoot().resolve(workspaceRoot)
     val fileUri = root.resolve(file).toUri().toString()
 
+    private fun normaliseSignature(signature: String): String =
+        signature
+        // Normalise single parameter names
+            .replace(Regex("\\((\\w+): "), "(p0: ")
+        // Normalise multi parameter names
+            .replace(Regex(", (\\w+): "), ", pX: ")
+
     @Test
     fun `should show all overrides for class`() {
         val result = languageServer.getProtocolExtensionService().overrideMember(TextDocumentPositionParams(TextDocumentIdentifier(fileUri), position(9, 8))).get()
@@ -98,13 +105,13 @@ class OverrideMemberTest : SingleFileTestFixture("overridemember", "OverrideMemb
     fun `should find members in jdk object`() {
         val result = languageServer.getProtocolExtensionService().overrideMember(TextDocumentPositionParams(TextDocumentIdentifier(fileUri), position(39, 9))).get()
 
-        val titles = result.map { it.title }
+        val titles = result.map { normaliseSignature(it.title) }
         val edits = result.flatMap { it.edit.changes[fileUri]!! }
-        val newTexts = edits.map { it.newText }
+        val newTexts = edits.map { normaliseSignature(it.newText) }
         val ranges = edits.map { it.range }
 
         assertThat(titles, hasItems(
-            "override fun equals(other: Any?): Boolean { }",
+            "override fun equals(p0: Any?): Boolean { }",
             "override fun hashCode(): Int { }",
             "override fun toString(): String { }",
             "override fun run() { }",
@@ -123,7 +130,7 @@ class OverrideMemberTest : SingleFileTestFixture("overridemember", "OverrideMemb
 
         val padding = System.lineSeparator() + System.lineSeparator() + "    "
         assertThat(newTexts, hasItems(
-            padding + "override fun equals(other: Any?): Boolean { }",
+            padding + "override fun equals(p0: Any?): Boolean { }",
             padding + "override fun hashCode(): Int { }",
             padding + "override fun toString(): String { }",
             padding + "override fun run() { }",

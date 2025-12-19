@@ -71,6 +71,7 @@ class KotlinLanguageServer(
     @JsonDelegate
     fun getProtocolExtensionService(): KotlinProtocolExtensions = protocolExtensions
 
+    @Suppress("LongMethod")
     override fun initialize(params: InitializeParams): CompletableFuture<InitializeResult> = async.compute {
         val serverCapabilities = ServerCapabilities()
         serverCapabilities.setTextDocumentSync(TextDocumentSyncKind.Incremental)

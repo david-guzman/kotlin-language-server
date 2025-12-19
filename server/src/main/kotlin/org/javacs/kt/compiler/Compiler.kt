@@ -461,6 +461,7 @@ class Compiler(
     classPath: Set<Path>,
     buildScriptClassPath: Set<Path> = emptySet(),
     scriptsConfig: ScriptsConfiguration,
+    @Suppress("UnusedPrivateMember")
     private val codegenConfig: CodegenConfiguration,
     private val outputDirectory: File,
 ) : Closeable {
@@ -590,6 +591,7 @@ class Compiler(
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun generateCode(module: ModuleDescriptor, bindingContext: BindingContext, files: Collection<KtFile>) {
         /*
         outputDirectory.takeIf { codegenConfig.enabled }?.let {
