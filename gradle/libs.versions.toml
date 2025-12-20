@@ -4,7 +4,7 @@ lsp4jVersion = "0.24.0"
 exposedVersion = "0.37.3"
 jmhVersion = "1.37"
 guavaVersion = "33.5.0-jre"
-fernFlowerVersion = "243.22562.218"
+fernFlowerVersion = "253.28294.334"
 
 [libraries]
 org-jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinVersion" }
