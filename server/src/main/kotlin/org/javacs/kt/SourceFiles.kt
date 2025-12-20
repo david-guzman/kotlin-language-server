@@ -220,6 +220,7 @@ private fun patch(sourceText: String, change: TextDocumentContentChangeEvent): S
     writer.write(change.text)
 
     // Skip replaced text
+    @Suppress("UnusedPrivateProperty")
     for (i in 0 until (range.end.line - range.start.line)) {
         reader.readLine()
     }

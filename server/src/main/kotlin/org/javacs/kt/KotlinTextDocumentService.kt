@@ -61,6 +61,7 @@ class KotlinTextDocumentService(
     private val TextDocumentIdentifier.filePath: Path?
         get() = parseURI(uri).filePath
 
+    @Suppress("UnusedPrivateProperty")
     private val TextDocumentIdentifier.isKotlinScript: Boolean
         get() = uri.endsWith(".kts")
 

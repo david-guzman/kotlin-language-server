@@ -57,6 +57,7 @@ class Logger {
     private val errStream = DelegatePrintStream { logError(LogMessage(LogLevel.ERROR, it.trimEnd())) }
     val outStream = DelegatePrintStream { log(LogMessage(LogLevel.INFO, it.trimEnd())) }
 
+    @Suppress("UnusedPrivateProperty")
     private val newline = System.lineSeparator()
     val logTime = false
     var level = LogLevel.INFO

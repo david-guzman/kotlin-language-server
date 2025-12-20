@@ -43,6 +43,7 @@ fun stringDistance(candidate: CharSequence, pattern: CharSequence, maxOffset: In
                 }
 
                 searchWindow@
+                @Suppress("LoopWithTooManyJumpStatements")
                 for (i in 0 until maxOffset) {
                     when {
                         (iCandidate + i) < candidateLength -> {
