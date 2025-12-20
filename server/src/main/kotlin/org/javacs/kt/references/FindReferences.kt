@@ -224,10 +224,15 @@ private fun operatorNames(name: Name): List<KtSingleValueToken> =
             OperatorNameConventions.EQUALS -> listOf(KtTokens.EQEQ)
             OperatorNameConventions.COMPARE_TO -> listOf(KtTokens.GT, KtTokens.LT, KtTokens.LTEQ, KtTokens.GTEQ)
             else -> {
-                val token = OperatorConventions.UNARY_OPERATION_NAMES.inverse()[name] ?:
-                            OperatorConventions.BINARY_OPERATION_NAMES.inverse()[name] ?:
-                            OperatorConventions.ASSIGNMENT_OPERATIONS.inverse()[name] ?:
-                            OperatorConventions.BOOLEAN_OPERATIONS.inverse()[name]
+                val token =
+                    sequenceOf(
+                        OperatorConventions.UNARY_OPERATION_NAMES,
+                        OperatorConventions.BINARY_OPERATION_NAMES,
+                        OperatorConventions.ASSIGNMENT_OPERATIONS,
+                        OperatorConventions.BOOLEAN_OPERATIONS
+                    )
+                        .mapNotNull { it.inverse()[name] }
+                        .firstOrNull()
                 listOfNotNull(token)
             }
         }
